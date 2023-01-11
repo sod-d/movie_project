@@ -17,7 +17,19 @@ export const router = new VueRouter({
         },
         {
             path: '/home',
+            name : 'home',
             component : HomeView,
+            // beforeEnter : (to,from,next) => {
+                
+                // this.$store.dispatch('FETCH_BOXOFFICE')
+                // .then(() =>{
+                //     console.log('fetched');
+                //     next();
+                // })
+                // .catch((error) => {
+                //     console.log(error);
+                // })
+            // },
         },
         {
             path: '/movie',

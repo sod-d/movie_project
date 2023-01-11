@@ -1,6 +1,10 @@
 <template>
   <div>
-    Movie
+    <section>
+		<div>
+			movie
+		</div>
+	</section>
   </div>
 </template>
 
