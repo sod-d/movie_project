@@ -2,8 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import HomeView from "../views/HomeView.vue"
-import MovieView from "../views/MovieView.vue"
+import MovieDetailView from "../views/MovieDetailView.vue"
 import ActorView from "../views/ActorView.vue"
+import { Store } from 'vuex';
 
 Vue.use(VueRouter);
 
@@ -32,9 +33,15 @@ export const router = new VueRouter({
             // },
         },
         {
-            path: '/movie',
-            name : 'movie',
-            component : MovieView,
+            path: '/MovieDetailView/:id',
+            name : 'MovieDetailView',
+            component : MovieDetailView,
+            // beforeEnter : (id) => {
+            //     Store.dispatch("FETCH_MOVIEDETAIL", id )
+            //     .then(() =>{
+            //         console.log("FETCH_MOVIEDETAIL");
+            //     })
+            // }
         },
         {
             path: '/actor',

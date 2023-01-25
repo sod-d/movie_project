@@ -1,7 +1,8 @@
 <template>
   <div>
       <div class="movie_card" id="bright" v-for="movieList in list" :key="movieList.item">
-        <router-link v-bind:to="'/movie' + movieList.movieCd">
+        <!-- <router-link v-bind:to="'/movie' + movieList.movieCd"> -->
+        <router-link v-bind:to="`/MovieDetailView/${movieList.movieCd}`">
           <div class="info_section">
             <div class="movie_header">
               <img class="locandina" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg"/>
@@ -27,7 +28,7 @@
 
 <script>
 import axios from 'axios';
-
+import { boxofficeList } from '../api/index.js'
 export default {
   data(){
     return {
@@ -38,9 +39,9 @@ export default {
     // var toDay = new Date().toJSON().slice(0,10).replace(/-/g,'');
     var toDay = "20220101"
     var vm = this;
-    axios.get("http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=" + toDay)
+    boxofficeList(toDay)
     .then(function(response){
-      console.log(response.request.response);
+      console.log(response);
       var boxOfficeResult = JSON.parse(response.request.response);
       boxOfficeResult = boxOfficeResult['boxOfficeResult'];
       vm.list = boxOfficeResult.dailyBoxOfficeList;
