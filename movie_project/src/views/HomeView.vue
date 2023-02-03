@@ -2,12 +2,14 @@
   <div>
       <div class="movie_card" id="bright" v-for="movieList in list" :key="movieList.item">
         <!-- <router-link v-bind:to="'/movie' + movieList.movieCd"> -->
-        <router-link v-bind:to="`/MovieDetailView/${movieList.movieCd}`">
           <div class="info_section">
             <div class="movie_header">
+            <router-link v-bind:to="`/MovieDetailView/${movieList.movieCd}`">
               <img class="locandina" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg"/>
-              <h1>{{ movieList.movieNm }}</h1>
-              <h4>{{movieList.openDt}}</h4>
+            </router-link>
+              <div class="card_title">{{ movieList.movieNm }}</div>
+              <div class="card_openDt">{{movieList.openDt}}</div>
+              <button @click="onClickLink(movieList.movieCd)">자세한 정보 보러 가기</button>
             </div>
             <!-- <div class="movie_social">
               <ul>
@@ -18,7 +20,6 @@
             </div> -->
           </div>
           <div class="blur_back bright_back"></div>
-      </router-link>
       </div>
     <!-- <ul>
       <li > {{ movieList.movieNm }}</li>
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import { boxofficeList } from '../api/index.js'
+import { boxofficeList,movieSearch } from '../api/index.js'
 export default {
   data(){
     return {
@@ -44,11 +45,25 @@ export default {
       var boxOfficeResult = JSON.parse(response.request.response);
       boxOfficeResult = boxOfficeResult['boxOfficeResult'];
       vm.list = boxOfficeResult.dailyBoxOfficeList;
+      console.log(response);
     })
     .catch(function(error){
       console.log(error);
     })
-  }
+
+    movieSearch()
+    .then(function(response){
+        console.log(response);
+    })
+    .catch(function(error){
+      console.log(error);
+    });
+  },
+  methods : {
+    onClickLink : function(movieCd){
+      window.open('http://kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movie&dtCd=' + movieCd);
+    }
+  } 
 }
 </script>
 
@@ -76,11 +91,10 @@ html, body{
 }
 
 .movie_card{
-  position: relative;
-  display: block;
-  width: 800px;
-  height: 350px;
-  margin: 80px auto; 
+  display: inline-block;
+  width: 190px;
+  height: 392px;
+  margin: 2rem;
   overflow: hidden;
   border-radius: 10px;
   transition: all 0.4s;
@@ -172,16 +186,25 @@ html, body{
   }
 }
 
+.card_title {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.card_openDt {
+  text-align: right;
+}
 @media screen and (min-width: 768px) {
-  .movie_header{
+  /* .movie_header{
     width: 65%;
-  }
+  } */
   
   .movie_desc{
     width: 50%;
   }
   
   .info_section{
+    height: 100%;
     background: linear-gradient(to right, #e5e6e6 50%, transparent 100%);
   }
   
