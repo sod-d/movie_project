@@ -1,26 +1,32 @@
 <template>
   <div>
-      <div class="movie_card" id="bright" v-for="movieList in list" :key="movieList.item">
-        <!-- <router-link v-bind:to="'/movie' + movieList.movieCd"> -->
-          <div class="info_section">
-            <div class="movie_header">
-            <router-link v-bind:to="`/MovieDetailView/${movieList.movieCd}`">
-              <img class="locandina" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg"/>
-            </router-link>
-              <div class="card_title">{{ movieList.movieNm }}</div>
-              <div class="card_openDt">{{movieList.openDt}}</div>
-              <button @click="onClickLink(movieList.movieCd)">자세한 정보 보러 가기</button>
-            </div>
-            <!-- <div class="movie_social">
-              <ul>
-                <li><i class="material-icons">share</i></li>
-                <li><i class="material-icons"></i></li>
-                <li><i class="material-icons">chat_bubble</i></li>
-              </ul>
-            </div> -->
+    <div class="movie_card" id="bright" v-for="movieList in list" :key="movieList.item">
+      <!-- <router-link v-bind:to="'/movie' + movieList.movieCd"> -->
+        <div class="info_section">
+          <div class="movie_header">
+          <router-link v-bind:to="`/MovieDetailView/${movieList.movieCd}`">
+            <!-- <div>{{movieList}}</div> -->
+            <!-- <div>{{movieList.imgUrl}}</div> -->
+            <img class="locandina" style="height: auto;width: 100%;" :src='`${movieList.imgUrl}`' />
+          </router-link>
+            <div class="card_title">{{ movieList.movieNm }}</div>
+            <div class="card_openDt">{{movieList.openDt}}</div>
+            <button @click="onClickLink(movieList.movieCd)">자세한 정보 보러 가기</button>
           </div>
-          <div class="blur_back bright_back"></div>
-      </div>
+          <!-- <div class="movie_social">
+            <ul>
+              <li><i class="material-icons">share</i></li>
+              <li><i class="material-icons"></i></li>
+              <li><i class="material-icons">chat_bubble</i></li>
+            </ul>
+          </div> -->
+        </div>
+        
+        <div class="blur_back bright_back"></div>
+    </div>
+    <div v-for="imgUrl in imgList" :key="imgUrl">
+      <img class="locandina"  :src='`${imgUrl}`' />
+    </div>
     <!-- <ul>
       <li > {{ movieList.movieNm }}</li>
     </ul> -->
@@ -33,31 +39,61 @@ export default {
   data(){
     return {
       list : []
+      ,imgList : []
     }
   },
   created() {
     // var toDay = new Date().toJSON().slice(0,10).replace(/-/g,'');
-    var toDay = "20220101"
+    var toDay = "20221001"
     var vm = this;
+    var movieNmArr = [];
+    var movieImgArr = [];
+    var cnt = 0;
     boxofficeList(toDay)
     .then(function(response){
       console.log(response);
       var boxOfficeResult = JSON.parse(response.request.response);
       boxOfficeResult = boxOfficeResult['boxOfficeResult'];
       vm.list = boxOfficeResult.dailyBoxOfficeList;
-      console.log(response);
+      for(var i=0;i<vm.list.length; i++){
+        movieNmArr.push(vm.list[i].movieNm)
+        console.log(vm.list[i].movieNm);
+        movieSearch(vm.list[i].movieNm)
+        .then(function(response){
+            var lastBuildDate = JSON.parse(response.request.response);
+            console.log(lastBuildDate);
+            movieImgArr.push(lastBuildDate.items[0].image);
+            vm.imgList = movieImgArr;
+            vm.list[cnt].imgUrl = lastBuildDate.items[0].image;
+            console.log(cnt);
+            cnt++;
+            
+        })
+        .catch(function(error){
+          console.log(error);
+        });
+      }
     })
     .catch(function(error){
       console.log(error);
     })
 
-    movieSearch()
-    .then(function(response){
-        console.log(response);
-    })
-    .catch(function(error){
-      console.log(error);
-    });
+    // var movieNm = "스파이더맨: 노 웨이 홈";
+    // // var movieNm = $(".card_title").text();
+    // var vm2 = this;
+    // var itemImg = "";
+    // movieSearch(movieNm)
+    // .then(function(response){
+    //     console.log("** movieSearch()**");
+    //     var lastBuildDate = JSON.parse(response.request.response);
+    //     console.log(JSON.parse(response.request.response));
+    //     console.log(lastBuildDate.items[0].image);
+    //     itemImg = lastBuildDate.items[0].image;
+    //     // vm2.itemImg = lastBuildDate.items[0].image;
+    // })
+    // .catch(function(error){
+    //   console.log(error);
+    // });
   },
   methods : {
     onClickLink : function(movieCd){

@@ -17,11 +17,14 @@ function boxofficeList(selectDt){
     return axios.get(`${config.kobisBaseUrl}${config.searchMovieInfo}movieCd=${movieCd}`);
  }
 
- function movieSearch(){
-    return axios.get('https://openapi.naver.com/v1/search/movie.json?query=UTF-8',
-        {headers : {
+ function movieSearch(movieNm){
+    return axios.get('v1/search/movie.json?',
+        {
+            params : { query : movieNm}
+            ,headers : {
             'X-Naver-Client-Id': config.naverClientId
-            ,'X-Naver-Client-Secret': config.naverClientSecret}
+            ,'X-Naver-Client-Secret': config.naverClientSecret
+            }
         }
     );
  }

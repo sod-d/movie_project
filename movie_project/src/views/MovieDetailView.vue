@@ -2,10 +2,16 @@
   <div>
     <section>
 		<div>
-			<div> {{ detailList }}</div>
+			<!-- <div> {{ detailList }}</div> -->
 			<h1> {{detailList.movieNm}} </h1>
+			<h3> {{detailList.audits[0].watchGradeNm}} </h3>
+			<h3>장르</h3>
+			<!-- <div id="bright" v-for="genresList in genres" :key="genresList.item"> -->
+				|<span v-for="genresList in genres" :key="genresList.item">{{genresList.genreNm}} | </span>
+			<!-- </div> -->
+			<h3> 출연 배우</h3>
 			<div id="bright" v-for="actorsList in actors" :key="actorsList.item">
-			<h4> {{actorsList.cast}} | {{actorsList.peopleNm}} </h4>
+				<h4> {{actorsList.cast}} | {{actorsList.peopleNm}} </h4>
 			</div>			
 		</div>
 	</section>
@@ -20,6 +26,7 @@ export default {
 		return {
 			detailList : [],
 			actors : [],
+			genres : []
 		}
 	},
 	created(){
@@ -36,6 +43,7 @@ export default {
 			console.log(movieInfoResult);
 			vm.detailList = movieInfoResult;
 			vm.actors = movieInfoResult.actors;
+			vm.genres = movieInfoResult.genres;
 		})
 		.catch(function(error){
 		console.log(error);
