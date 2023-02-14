@@ -3,6 +3,11 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave : false,
   devServer : {
-    proxy : 'https://openapi.naver.com'
+    '/openapiNaver' : {
+      target : 'https://openapi.naver.com'
+      ,changeOrigin : true
+    }
+
+    
   }
 })

@@ -1,9 +1,9 @@
 <template>
   <div class="header">
     <ul>
-      <li><router-link to="/home">Home</router-link></li>
+      <li><router-link to="/home">boxOffice List</router-link></li>
       <li><router-link to="/movie">Movie List</router-link></li>
-      <li><router-link to="/actor">Actor List</router-link></li>
+      <li><router-link to="/actor">search</router-link></li>
     </ul>
   </div>
 </template>

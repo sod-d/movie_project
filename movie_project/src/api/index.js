@@ -18,7 +18,7 @@ function boxofficeList(selectDt){
  }
 
  function movieSearch(movieNm){
-    return axios.get('v1/search/movie.json?',
+    return axios.get('openapiNaver/v1/search/movie.json?',
         {
             params : { query : movieNm}
             ,headers : {
@@ -30,7 +30,8 @@ function boxofficeList(selectDt){
  }
 
 export {
-    boxofficeList
+    config
+    ,boxofficeList
     ,movieDetail
     ,movieSearch
 }

@@ -55,6 +55,7 @@ export default {
       var boxOfficeResult = JSON.parse(response.request.response);
       boxOfficeResult = boxOfficeResult['boxOfficeResult'];
       vm.list = boxOfficeResult.dailyBoxOfficeList;
+      //asysnc await 처리하기
       for(var i=0;i<vm.list.length; i++){
         movieNmArr.push(vm.list[i].movieNm)
         console.log(vm.list[i].movieNm);
@@ -65,7 +66,6 @@ export default {
             movieImgArr.push(lastBuildDate.items[0].image);
             vm.imgList = movieImgArr;
             vm.list[cnt].imgUrl = lastBuildDate.items[0].image;
-            console.log(cnt);
             cnt++;
             
         })
